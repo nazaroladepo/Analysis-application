@@ -1,0 +1,63 @@
+# Development Requirements
+# Install with: pip install -r requirements-dev.txt
+
+# Core numerical and ML packages
+numpy
+pandas
+scikit-learn
+scipy
+torch
+torchvision
+
+# Image processing
+opencv-python-headless
+Pillow
+scikit-image
+plantcv
+
+# Plotting
+matplotlib
+seaborn
+
+# FastAPI backend
+fastapi
+uvicorn[standard]
+python-dotenv
+python-multipart
+
+# AWS access
+boto3
+psycopg2-binary
+pyyaml
+
+# Transformers (BRIA model)
+transformers
+
+# Database
+sqlalchemy
+alembic
+pymysql
+cryptography
+
+# Testing
+pytest
+pytest-dotenv
+pytest-cov
+pytest-asyncio
+faker
+freezegun
+
+# Segmentation
+kornia
+timm
+
+# YOLO detection (pot removal for Mullet)
+ultralytics
+
+# Celery and Redis
+celery
+redis
+
+# Additional development tools
+requests
+httpx
