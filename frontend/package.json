@@ -1,0 +1,42 @@
+{
+  "name": "plant-analysis-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Plant Analysis Dashboard",
+  "author": "AVLL",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.842.0",
+    "@aws-sdk/s3-request-presigner": "^3.842.0",
+    "axios": "^1.6.2",
+    "chart.js": "^3.9.1",
+    "core-js": "^3.6.5",
+    "jszip": "^3.10.1",
+    "plotly.js-dist-min": "^2.26.0",
+    "vue": "^2.6.11",
+    "vue-easy-lightbox": "0.17.0",
+    "vue-router": "^3.6.5",
+    "vuetify": "^2.7.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "sass": "^1.69.0",
+    "sass-loader": "^10.0.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-optional-chaining"
+    ]
+  }
+}
