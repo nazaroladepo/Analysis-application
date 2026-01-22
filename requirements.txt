@@ -51,7 +51,7 @@ freezegun
 kornia
 timm
 
-# YOLO detection (pot removal for Mullet)
+# YOLO detection (pot removal for Dr.Mullet)
 ultralytics
 
 # Celery and Redis
