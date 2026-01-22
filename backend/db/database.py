@@ -20,23 +20,22 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SQLITE_PATH = PROJECT_ROOT / "local_plant_dev.db"
 DEFAULT_SQLITE_URL = "sqlite:///" + DEFAULT_SQLITE_PATH.as_posix()
 
-# For MySQL (local or RDS):
-# Replace placeholders with your actual MySQL credentials and endpoint
-# It's BEST PRACTICE to use environment variables for these sensitive details
+# Database URL priority:
+# 1. DATABASE_URL (used by Render, Supabase, Heroku, etc.)
+# 2. DB_DEV_CONNECTION_STRING (for local MySQL/PostgreSQL)
+# 3. Default to SQLite for local development
+
 SQLALCHEMY_DATABASE_URL = os.environ.get(
-    "DB_DEV_CONNECTION_STRING",
-    DEFAULT_SQLITE_URL  # Default to project-root SQLite for local development
+    "DATABASE_URL",  # Primary: Used by production services (Render, Supabase, etc.)
+    os.environ.get(
+        "DB_DEV_CONNECTION_STRING",  # Fallback: Local MySQL/PostgreSQL
+        DEFAULT_SQLITE_URL  # Default: SQLite for local development
+    )
 )
 
-# Note: MySQL DateTime columns don't store timezone info
-# If you need timezone-aware datetimes, handle this in your application logic
-
-
-# For PostgreSQL (local or RDS) - KEPT FOR REFERENCE:
-# SQLALCHEMY_DATABASE_URL = os.environ.get(
-#    "DATABASE_URL",
-#    "postgresql+psycopg2://user:password@localhost:5432/mydatabase" # Default for local testing
-# )
+# Convert postgres:// to postgresql:// if needed (some services use postgres://)
+if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 
 # Create the SQLAlchemy Engine
