@@ -57,8 +57,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🔧 Create database tables
-Base.metadata.create_all(bind=engine)
+# 🔧 Create database tables on startup (non-blocking with error handling)
+@app.on_event("startup")
+async def create_tables():
+    """Create database tables on startup, with error handling"""
+    try:
+        Base.metadata.create_all(bind=engine)
+        logging.info("Database tables created successfully")
+    except Exception as e:
+        logging.error(f"Failed to create database tables: {e}")
+        # Don't crash the app - it can still serve requests
+        # Database operations will fail gracefully later if needed
 
 # Health and root endpoints for container healthcheck
 @app.get("/health")

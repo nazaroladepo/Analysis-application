@@ -39,8 +39,15 @@ if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
 
 
 # Create the SQLAlchemy Engine
-# echo=True is useful for debugging as it logs all SQL statements
-engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
+# echo=False in production to reduce log verbosity (set to True for debugging)
+# Add connection pooling for better performance
+is_production = os.environ.get("RENDER", "false").lower() == "true" or os.environ.get("ENVIRONMENT") == "production"
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, 
+    echo=not is_production,  # Only echo SQL in development
+    pool_pre_ping=True,  # Verify connections before using
+    pool_recycle=300,  # Recycle connections after 5 minutes
+)
 
 # Create a SessionLocal class
 # This class will be an actual database session for a single unit of work (e.g., one request)
