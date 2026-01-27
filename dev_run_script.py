@@ -19,10 +19,10 @@ def setup_environment():
     print("🚀 Setting up local development environment...")
     
     # Set environment variables
-    env_file = Path(".env.local")
+    env_file = Path(".env")
     if env_file.exists():
         print(f"📄 Loading environment variables from {env_file}")
-        # Load environment variables from .env.local
+        # Load environment variables from .env
         with open(env_file, 'r') as f:
             for line in f:
                 line = line.strip()
@@ -30,7 +30,7 @@ def setup_environment():
                     key, value = line.split('=', 1)
                     os.environ[key] = value
     else:
-        print("⚠️  No .env.local file found. Using default environment variables.")
+        print("⚠️  No .env file found. Using default environment variables.")
     
     # Set Python path
     project_root = Path(__file__).parent.absolute()
