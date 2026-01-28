@@ -85,13 +85,15 @@ app.add_middleware(
 # 🔧 Create database tables on startup (non-blocking with error handling)
 @app.on_event("startup")
 async def create_tables():
-    """Create database tables on startup, with error handling"""
+    """Create database tables on startup if they don't exist, with error handling"""
     try:
         # Import here to avoid circular imports
         try:
             from backend.db.database import SQLALCHEMY_DATABASE_URL
+            from sqlalchemy import inspect
         except ImportError:
             from db.database import SQLALCHEMY_DATABASE_URL
+            from sqlalchemy import inspect
         
         # Log which database we're using (without credentials)
         db_url_display = str(SQLALCHEMY_DATABASE_URL)
@@ -102,10 +104,23 @@ async def create_tables():
                 db_url_display = f"{parts[0].split('://')[0]}://***@{parts[1]}"
         
         logging.info(f"Connecting to database: {db_url_display}")
-        Base.metadata.create_all(bind=engine)
-        logging.info("✅ Database tables created successfully")
+        
+        # Check if tables already exist
+        inspector = inspect(engine)
+        existing_tables = inspector.get_table_names()
+        required_tables = ['plants', 'processed_data', 'vegetation_index_timeline', 'texture_timeline', 'morphology_timeline']
+        
+        missing_tables = [table for table in required_tables if table not in existing_tables]
+        
+        if missing_tables:
+            logging.info(f"Creating missing tables: {', '.join(missing_tables)}")
+            Base.metadata.create_all(bind=engine)
+            logging.info("✅ Database tables created successfully")
+        else:
+            logging.info("✅ All database tables already exist, skipping creation")
+            
     except Exception as e:
-        logging.error(f"❌ Failed to create database tables: {e}")
+        logging.error(f"❌ Failed to check/create database tables: {e}")
         logging.warning("💡 Tip: For local development, ensure DATABASE_URL is not set, or use SQLite")
         logging.warning("💡 For Supabase, ensure DATABASE_URL is set correctly and the database is accessible")
         # Don't crash the app - it can still serve requests
