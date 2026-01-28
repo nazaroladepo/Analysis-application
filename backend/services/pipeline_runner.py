@@ -4,6 +4,7 @@ import os
 import io
 import json
 import re
+import sys
 import cv2
 import boto3
 import torch
@@ -14,6 +15,15 @@ matplotlib.use("Agg")  # safe for headless servers
 import matplotlib.pyplot as plt
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional, Any
+
+# ---------------------------------------------------------------------------
+# Path setup so `src.*` imports work whether this is executed via:
+# - dev_run_script (which sets PYTHONPATH), or
+# - direct imports from the backend package.
+# ---------------------------------------------------------------------------
+PROJECT_ROOT = Path(__file__).resolve().parents[2]   # .../Analysis-application
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 # Load environment variables from .env file
 try:

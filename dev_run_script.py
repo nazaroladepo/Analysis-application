@@ -206,8 +206,8 @@ def main():
         if not check_dependencies():
             sys.exit(1)
         
-        if not create_database():
-            sys.exit(1)
+        # if not create_database():
+        #     sys.exit(1)
     
     print("\n" + "="*50)
     print("🚀 Starting Plant Analysis Development Servers")

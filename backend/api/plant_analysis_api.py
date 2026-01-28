@@ -17,8 +17,8 @@ from io import BytesIO
 from typing import List
 import zipfile
 from pydantic import BaseModel
-from backend.tasks import analyze_plant_task
-from backend.celery_worker import celery_app
+from tasks import analyze_plant_task
+from celery_worker import celery_app
 import boto3
 import json
 import os

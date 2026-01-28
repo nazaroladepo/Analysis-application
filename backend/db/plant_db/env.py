@@ -1,4 +1,6 @@
+import os
 from logging.config import fileConfig
+from pathlib import Path
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
@@ -22,10 +24,22 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+# Override sqlalchemy.url from environment variable if set
+# This allows Alembic to use the same database URL as the main app
+# Priority: DATABASE_URL > DB_DEV_CONNECTION_STRING > alembic.ini value
+database_url = os.environ.get(
+    "DATABASE_URL",
+    os.environ.get(
+        "DB_DEV_CONNECTION_STRING",
+        None
+    )
+)
+
+if database_url:
+    # Convert postgres:// to postgresql:// if needed
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    config.set_main_option("sqlalchemy.url", database_url)
 
 
 def run_migrations_offline() -> None:
@@ -41,6 +55,13 @@ def run_migrations_offline() -> None:
 
     """
     url = config.get_main_option("sqlalchemy.url")
+    
+    # If no URL is set and no env vars, default to SQLite
+    if not url or url == "":
+        project_root = Path(__file__).resolve().parents[3]
+        default_sqlite_path = project_root / "local_plant_dev.db"
+        url = f"sqlite:///{default_sqlite_path.as_posix()}"
+    
     context.configure(
         url=url,
         target_metadata=target_metadata,

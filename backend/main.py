@@ -2,12 +2,37 @@
 
 import logging
 import os
+import sys
 from pathlib import Path
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from backend.api import plant_analysis_api, charts_api
+
+# ---------------------------------------------------------------------------
+# Python path setup so this file works both when:
+# - run as a module:  python -m backend.main  (preferred)
+# - run directly:     python backend/main.py
+# - run from within the backend directory
+# ---------------------------------------------------------------------------
+CURRENT_DIR = Path(__file__).resolve().parent          # .../backend
+PROJECT_ROOT = CURRENT_DIR.parent                      # .../Analysis-application
+
+for p in (str(PROJECT_ROOT), str(CURRENT_DIR)):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+# Try package-style imports first (for uvicorn/backend.main:app), fall back to
+# local imports when running this file directly from the backend directory.
+try:
+    from backend.api import plant_analysis_api, charts_api  # type: ignore
+    from backend.db.models import Base  # type: ignore
+    from backend.db.database import engine  # type: ignore
+except ImportError:
+    from api import plant_analysis_api, charts_api
+    from db.models import Base
+    from db.database import engine
 
 # Load environment variables from .env file in root directory
 try:
@@ -36,8 +61,8 @@ except Exception as e:
     logging.warning(f"Could not load .env file: {e}")
 
 # 🔧 New imports for DB setup
-from backend.db.models import Base
-from backend.db.database import engine
+from db.models import Base
+from db.database import engine
 
 # Check if read-only mode is enabled
 READ_ONLY_MODE = os.environ.get("READ_ONLY_MODE", "false").lower() == "true"
@@ -62,10 +87,27 @@ app.add_middleware(
 async def create_tables():
     """Create database tables on startup, with error handling"""
     try:
+        # Import here to avoid circular imports
+        try:
+            from backend.db.database import SQLALCHEMY_DATABASE_URL
+        except ImportError:
+            from db.database import SQLALCHEMY_DATABASE_URL
+        
+        # Log which database we're using (without credentials)
+        db_url_display = str(SQLALCHEMY_DATABASE_URL)
+        if "@" in db_url_display:
+            # Mask credentials for logging
+            parts = db_url_display.split("@")
+            if len(parts) == 2:
+                db_url_display = f"{parts[0].split('://')[0]}://***@{parts[1]}"
+        
+        logging.info(f"Connecting to database: {db_url_display}")
         Base.metadata.create_all(bind=engine)
-        logging.info("Database tables created successfully")
+        logging.info("✅ Database tables created successfully")
     except Exception as e:
-        logging.error(f"Failed to create database tables: {e}")
+        logging.error(f"❌ Failed to create database tables: {e}")
+        logging.warning("💡 Tip: For local development, ensure DATABASE_URL is not set, or use SQLite")
+        logging.warning("💡 For Supabase, ensure DATABASE_URL is set correctly and the database is accessible")
         # Don't crash the app - it can still serve requests
         # Database operations will fail gracefully later if needed
 
@@ -132,3 +174,20 @@ else:
             "status": "ok",
             "message": "Frontend not built. Run: cd frontend && VUE_APP_API_BASE_URL=/api npm run build"
         }
+
+# ---------------------------------------------------------------------------
+# Local development entrypoint
+# This allows you to run the backend directly with:
+#   - From project root:  python3 backend/main.py
+#   - From backend dir:   python3 main.py
+# For production (Render, uvicorn), continue to use `backend.main:app`.
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import uvicorn
+
+    host = os.environ.get("BACKEND_HOST", "127.0.0.1")
+    port = int(os.environ.get("BACKEND_PORT", "8000"))
+
+    print(f"🌐 Starting FastAPI backend on {host}:{port}")
+    uvicorn.run("main:app", host=host, port=port, reload=True)
+
