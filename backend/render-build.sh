@@ -10,6 +10,6 @@ echo "🚧 Render build starting..."
 
 echo "📦 Python: installing dependencies from requirements.txt"
 pip install --upgrade pip
-pip install -r requirements.txt
+pip install -r light-reqs.txt
 
 echo "✅ Render build completed successfully"

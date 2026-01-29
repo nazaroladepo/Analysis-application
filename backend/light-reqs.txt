@@ -1,0 +1,30 @@
+# FastAPI Web Framework
+fastapi
+uvicorn[standard]
+python-dotenv
+python-multipart
+
+# Database
+sqlalchemy
+alembic
+psycopg2-binary
+pymysql
+cryptography
+
+# Data Processing (for charts API)
+numpy
+pandas
+
+# AWS S3 Access
+boto3
+
+# Task Queue (Celery)
+celery
+redis
+
+# HTTP Clients
+requests
+httpx
+
+# Configuration
+pyyaml
