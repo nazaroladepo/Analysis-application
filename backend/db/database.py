@@ -22,6 +22,8 @@ DEFAULT_SQLITE_URL = "sqlite:///" + DEFAULT_SQLITE_PATH.as_posix()
 
 # Database URL priority:
 # 1. DATABASE_URL (used by Render, Supabase, Heroku, etc.)
+#    Supabase format: postgresql://postgres.PROJECT_REF:PASSWORD@aws-1-us-east-2.pooler.supabase.com:5432/postgres
+#    Use session pooler (pooler.supabase.com) for SQLAlchemy, not transaction pooler
 # 2. DB_DEV_CONNECTION_STRING (for local MySQL/PostgreSQL)
 # 3. Default to SQLite for local development
 

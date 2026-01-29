@@ -53,10 +53,14 @@ cd ..
 Create a `.env.local` file in the project root for local development:
 
 ```bash
-# Database (optional - defaults to SQLite for local dev)
-DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+# Database - Supabase PostgreSQL (production)
+# Use the session pooler URL for SQLAlchemy/Alembic
+DATABASE_URL=postgresql://postgres.bkgiloofplapfscqljao:7FOBuPmTyt8dnhgv@aws-1-us-east-2.pooler.supabase.com:5432/postgres
+
+# Database - Local development (optional - defaults to SQLite if not set)
+# DB_DEV_CONNECTION_STRING=postgresql://user:password@localhost:5432/dbname
 # or
-DB_DEV_CONNECTION_STRING=mysql+pymysql://user:password@localhost:3306/dbname
+# DB_DEV_CONNECTION_STRING=mysql+pymysql://user:password@localhost:3306/dbname
 
 # AWS S3 (if using cloud storage)
 AWS_ACCESS_KEY_ID=your_access_key

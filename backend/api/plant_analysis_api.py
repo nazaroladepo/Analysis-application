@@ -17,8 +17,8 @@ from io import BytesIO
 from typing import List
 import zipfile
 from pydantic import BaseModel
-from tasks import analyze_plant_task
-from celery_worker import celery_app
+# Lazy imports: analyze_plant_task and celery_app are imported inside route functions
+# to avoid loading heavy ML models at module import time
 import boto3
 import json
 import os
@@ -147,11 +147,21 @@ async def analyze_plant(species: str, plant_id: str, date: str, segmentation_met
     
     # Construct the S3 key for the plant image
     key = S3_IMAGE_PATH_TEMPLATE.format(species=species, date=date, plant_id=plant_id)
+    # Lazy import to avoid loading heavy ML models at startup
+    try:
+        from backend.tasks import analyze_plant_task
+    except ImportError:
+        from tasks import analyze_plant_task
     task = analyze_plant_task.delay(S3_BUCKET, key, species, segmentation_method)
     return {"task_id": task.id, "status": "processing started"}
 
 @router.get("/task-status/{task_id}")
 def get_task_status(task_id: str):
+    # Lazy import to avoid loading heavy ML models at startup
+    try:
+        from backend.celery_worker import celery_app
+    except ImportError:
+        from celery_worker import celery_app
     task = celery_app.AsyncResult(task_id)
     return {
         "task_id": task_id,

@@ -72,6 +72,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # Initialize app
 app = FastAPI(title="Plant Analysis Backend")
+logging.info("✅ FastAPI app created, ready to bind port")
 
 # ✅ Add CORS middleware
 app.add_middleware(
