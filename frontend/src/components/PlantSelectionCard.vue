@@ -114,4 +114,82 @@ button.disabled {
 button:disabled {
   cursor: not-allowed;
 }
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .card {
+    width: 280px;
+    padding: 12px;
+  }
+  
+  .card-title {
+    font-size: 42px;
+  }
+  
+  button {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+  }
+  
+  .card-title {
+    font-size: 36px;
+  }
+  
+  button {
+    font-size: 36px;
+    width: 85%;
+  }
+  
+  .title-underline {
+    width: 65%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    margin: 8px;
+  }
+  
+  .card-title {
+    font-size: 28px;
+    margin-top: 3px;
+    margin-bottom: 12px;
+  }
+  
+  button {
+    font-size: 28px;
+    width: 90%;
+    padding: 4px 0px;
+  }
+  
+  .title-underline {
+    width: 70%;
+    height: 3px;
+    margin: -12px auto 15px auto;
+  }
+  
+  .plant-list {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .card-title {
+    font-size: 24px;
+  }
+  
+  button {
+    font-size: 24px;
+  }
+}
 </style>

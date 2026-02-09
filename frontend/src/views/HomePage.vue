@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="home" :class="{ 'selection-view-active': currentView === 'select' }">
     <!-- Background layers -->
     <div class="background-container">
       <!-- Background image layer -->
@@ -74,7 +74,7 @@
           <div class="selection-container">
             <PlantSelectionCard
               title="Biotic"
-              :plants="[{name:'Sorghum', disabled: false}, {name: 'Uploaded', disabled: false},{name: 'Mullet', disabled: false}]"
+              :plants="[{name:'Sorghum', disabled: false}]"
               @select-plant="handlePlantSelection"
               :selectedPlant="selectedPlant"
             />
@@ -136,6 +136,30 @@ export default {
       };
     }
   },
+  watch: {
+    currentView(newView) {
+      // Toggle scrollable class on body and html when selection view is active
+      if (newView === 'select') {
+        document.body.classList.add('selection-view-active');
+        document.documentElement.classList.add('selection-view-active');
+      } else {
+        document.body.classList.remove('selection-view-active');
+        document.documentElement.classList.remove('selection-view-active');
+      }
+    }
+  },
+  mounted() {
+    // Set initial state
+    if (this.currentView === 'select') {
+      document.body.classList.add('selection-view-active');
+      document.documentElement.classList.add('selection-view-active');
+    }
+  },
+  beforeUnmount() {
+    // Clean up classes when component is destroyed
+    document.body.classList.remove('selection-view-active');
+    document.documentElement.classList.remove('selection-view-active');
+  },
   methods: {
     setView(view) {
       if (view === 'upload') {
@@ -192,23 +216,56 @@ export default {
 </script>
 
 <style>
-/* Global styles to remove scrollbars */
+/* Global styles - allow scrolling when plant selection is active */
 html, body {
-  overflow: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
 }
 
-/* Hide scrollbars for webkit browsers */
+/* Hide scrollbars for webkit browsers by default */
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbars for Firefox */
+/* Hide scrollbars for Firefox by default */
 html {
   scrollbar-width: none;
+}
+
+/* Show scrollbars when plant selection view is active */
+body.selection-view-active,
+html.selection-view-active {
+  overflow: auto;
+}
+
+body.selection-view-active ::-webkit-scrollbar,
+html.selection-view-active ::-webkit-scrollbar {
+  display: block;
+  width: 10px;
+}
+
+body.selection-view-active ::-webkit-scrollbar-track,
+html.selection-view-active ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+body.selection-view-active ::-webkit-scrollbar-thumb,
+html.selection-view-active ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+
+body.selection-view-active ::-webkit-scrollbar-thumb:hover,
+html.selection-view-active ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+body.selection-view-active,
+html.selection-view-active {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
 }
 </style>
 
@@ -221,6 +278,14 @@ html {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+}
+
+/* Allow scrolling when plant selection view is active */
+#home.selection-view-active {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: auto;
+  min-height: 100vh;
 }
 
 /* Background container that covers the entire screen */
@@ -266,6 +331,13 @@ html {
   justify-content: center;
   padding: 20px;
   text-align: center;
+}
+
+/* When selection view is active, allow content to expand */
+#home.selection-view-active .app-content {
+  min-height: auto;
+  justify-content: flex-start;
+  padding-bottom: 40px;
 }
 
 .content {
@@ -406,8 +478,9 @@ html {
   backdrop-filter: blur(10px);
   display: flex;
   position: fixed;
-  left: 500px;
-  bottom: 425px;
+  top: 220px;
+  left: 40px;
+  z-index: 10;
 }
 
 .back-arrow:hover {
@@ -446,9 +519,156 @@ html {
 }
 
 /* Responsive design */
+
+/* Large screens (1440px and above) */
+@media (min-width: 1440px) {
+  .content {
+    max-width: 1400px;
+  }
+  
+  .action-buttons {
+    gap: 100px;
+  }
+}
+
+/* Medium-large screens (1200px - 1024px) */
+@media (max-width: 1200px) {
+  .content {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+  
+  .title {
+    font-size: 65px;
+  }
+  
+  .action-buttons {
+    gap: 60px;
+  }
+  
+  .plant-selection-view {
+    margin-top: -30px;
+  }
+  
+  .subtitle-container {
+    margin-top: -70px;
+    margin-bottom: 35px;
+  }
+  
+  .selection-container {
+    gap: 80px;
+    height: auto;
+    min-height: 369px;
+  }
+  
+  .title-underline {
+    width: 35%;
+    margin: -32px auto 22px auto;
+  }
+}
+
+/* Tablets (1024px and below) */
+@media (max-width: 1024px) {
+  .title {
+    font-size: 56px;
+  }
+  
+  .subtitle {
+    font-size: 48px;
+  }
+  
+  .description {
+    max-width: 500px;
+  }
+  
+  .action-buttons {
+    gap: 40px;
+  }
+  
+  .action-button {
+    width: 220px;
+    height: 130px;
+    font-size: 22px;
+  }
+  
+  .plant-selection-view {
+    margin-top: -20px;
+  }
+  
+  .subtitle-container {
+    margin-top: -60px;
+    margin-bottom: 30px;
+  }
+  
+  .selection-container {
+    gap: 60px;
+    height: auto;
+    min-height: 369px;
+  }
+  
+  .title-underline {
+    width: 40%;
+    margin: -30px auto 25px auto;
+  }
+  
+  .back-arrow {
+    position: fixed !important;
+    top: 200px !important;
+    left: 30px !important;
+    z-index: 10;
+  }
+}
+
+/* Medium tablets and small laptops (900px - 768px) */
+@media (max-width: 900px) {
+  .title {
+    font-size: 50px;
+  }
+  
+  .subtitle {
+    font-size: 42px;
+  }
+  
+  .description {
+    font-size: 18px;
+    max-width: 450px;
+  }
+  
+  .action-button {
+    width: 200px;
+    height: 120px;
+    font-size: 20px;
+  }
+  
+  .title-container {
+    margin-top: 150px;
+  }
+  
+  .plant-selection-view {
+    margin-top: -10px;
+  }
+  
+  .subtitle-container {
+    margin-top: -50px;
+    margin-bottom: 25px;
+    gap: 12px;
+  }
+  
+  .selection-container {
+    gap: 50px;
+    height: auto;
+  }
+  
+  .title-underline {
+    width: 45%;
+    margin: -28px auto 20px auto;
+  }
+}
+
+/* Mobile devices (768px and below) */
 @media (max-width: 768px) {
   .title {
-    font-size: 48px;
+    font-size: 42px;
   }
   
   .subtitle {
@@ -457,23 +677,215 @@ html {
   
   .description {
     font-size: 16px;
-    max-width: 350px;
+    max-width: 100%;
+    padding: 0 20px;
   }
   
   .action-buttons {
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
   }
   
   .action-button {
     min-width: 200px;
+    width: 100%;
+    max-width: 300px;
+    height: 100px;
+    font-size: 18px;
+  }
+  
+  .plant-selection-view {
+    margin-top: 0;
+    width: 100%;
+    padding: 0 10px;
+  }
+  
+  .subtitle-container {
+    margin-top: -40px;
+    margin-bottom: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .subtitle {
+    font-size: 32px;
+  }
+  
+  .title-underline {
+    width: 60%;
+    height: 5px;
+    margin: -25px auto 20px auto;
   }
   
   .selection-container {
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 25px;
+    height: auto;
+    min-height: auto;
+    padding: 0 10px;
+  }
+  
+  .title-container {
+    margin-top: 120px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .documentation-icon {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-top: 10px;
+  }
+  
+  .back-arrow {
+    position: fixed !important;
+    top: 180px !important;
+    left: 20px !important;
+    padding: 6px;
+    z-index: 10;
+  }
+  
+  .back-arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .background-image {
+    background-attachment: scroll;
+  }
+}
+
+/* Small mobile devices (480px and below) */
+@media (max-width: 480px) {
+  .title {
+    font-size: 32px;
+  }
+  
+  .subtitle {
+    font-size: 28px;
+  }
+  
+  .description {
+    font-size: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .app-content {
+    padding: 15px;
+  }
+  
+  .title-container {
+    margin-top: 100px;
+    margin-bottom: 15px;
+  }
+  
+  .action-button {
+    height: 80px;
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+  
+  .plant-selection-view {
+    margin-top: 10px;
+    padding: 0 5px;
+  }
+  
+  .subtitle-container {
+    margin-top: -30px;
+    margin-bottom: 15px;
+    gap: 8px;
+  }
+  
+  .subtitle {
+    font-size: 24px;
+  }
+  
+  .title-underline {
+    width: 70%;
+    height: 4px;
+    margin: -20px auto 15px auto;
+  }
+  
+  .selection-container {
+    gap: 20px;
+    padding: 0 5px;
+  }
+  
+  .back-arrow {
+    position: fixed !important;
+    top: 160px !important;
+    left: 15px !important;
+    padding: 5px;
+    z-index: 10;
+  }
+  
+  .back-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Extra small devices (360px and below) */
+@media (max-width: 360px) {
+  .title {
+    font-size: 28px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+  }
+  
+  .description {
+    font-size: 14px;
+  }
+  
+  .action-button {
+    height: 70px;
+    font-size: 14px;
+  }
+  
+  .title-container {
+    margin-top: 80px;
+  }
+  
+  .plant-selection-view {
+    margin-top: 15px;
+  }
+  
+  .subtitle-container {
+    margin-top: -20px;
+    margin-bottom: 12px;
+    gap: 6px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+  }
+  
+  .title-underline {
+    width: 75%;
+    height: 3px;
+    margin: -15px auto 12px auto;
+  }
+  
+  .selection-container {
+    gap: 15px;
+  }
+  
+  .back-arrow {
+    position: fixed !important;
+    top: 140px !important;
+    left: 10px !important;
+    padding: 4px;
+    z-index: 10;
+  }
+  
+  .back-arrow svg {
+    width: 16px;
+    height: 16px;
   }
 }
 </style>

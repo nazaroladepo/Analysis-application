@@ -38,50 +38,106 @@
           Upload your plant images for analysis with our advanced AI-powered tools.
         </div>
 
-        <!-- Upload Rules Display -->
-        <div class="upload-rules">
-          <h3 class="rules-title">File Naming Rules</h3>
-          <div class="rules-content">
-            <!-- Raw Data Rules -->
-            <div class="rules-section">
-              <h4 class="rules-section-title">Raw Dataset Files</h4>
-              <p><strong>Directory Structure:</strong> <code>{Species}_dataset</code></p>
-              <p><strong>File Format:</strong> <code>{Species}_{Date}_plant#.tiff</code></p>
-              <p class="rules-example"><strong>Example:</strong> <code>Sorghum_2024-12-04_plant1.tiff</code></p>
-              <ul class="rules-list">
-                <li>Species: Capitalize first letter (e.g., Sorghum, Corn, Cotton)</li>
-                <li>Date: Format as YYYY-MM-DD (e.g., 2024-12-04)</li>
-                <li>Plant number: Use lowercase 'plant' followed by a number (e.g., plant1, plant2)</li>
-                <li>File extension: Must be .tiff or .tif</li>
-              </ul>
+        <!-- Main Content Grid: Rules on Left, Upload on Right -->
+        <div class="main-content-grid">
+          <!-- Left Column: Upload Rules -->
+          <div class="rules-panel">
+            <div class="rules-header">
+              <div class="rules-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3 class="rules-title">File Naming Rules</h3>
             </div>
+            <div class="rules-content">
+              <!-- Raw Data Rules -->
+              <div class="rules-section">
+                <div class="rules-section-header">
+                  <h4 class="rules-section-title">Raw Dataset Files</h4>
+                  <div class="rules-badge">Required</div>
+                </div>
+                <div class="rules-detail">
+                  <p class="rules-label">Directory Structure:</p>
+                  <code class="rules-code">{Species}_dataset</code>
+                </div>
+                <div class="rules-detail">
+                  <p class="rules-label">File Format:</p>
+                  <code class="rules-code">{Species}_{Date}_plant#.tiff</code>
+                </div>
+                <div class="rules-example-box">
+                  <p class="rules-example-label">Example:</p>
+                  <code class="rules-example-code">Sorghum_2024-12-04_plant1.tiff</code>
+                </div>
+                <ul class="rules-list">
+                  <li>
+                    <span class="list-icon">✓</span>
+                    <span>Species: Capitalize first letter (e.g., Sorghum, Corn, Cotton)</span>
+                  </li>
+                  <li>
+                    <span class="list-icon">✓</span>
+                    <span>Date: Format as YYYY-MM-DD (e.g., 2024-12-04)</span>
+                  </li>
+                  <li>
+                    <span class="list-icon">✓</span>
+                    <span>Plant number: Use lowercase 'plant' followed by a number (e.g., plant1, plant2)</span>
+                  </li>
+                  <li>
+                    <span class="list-icon">✓</span>
+                    <span>File extension: Must be .tiff or .tif</span>
+                  </li>
+                </ul>
+              </div>
 
-            <!-- Processed Data Rules -->
-            <div class="rules-section">
-              <h4 class="rules-section-title">Processed Data Files</h4>
-              <p><strong>Directory Structure:</strong> <code>{Species}_results</code></p>
-              <p><strong>File Format:</strong> Use appropriate format for processed data files</p>
-              <p class="rules-example"><strong>Example:</strong> Results should be organized under <code>{Species}_results</code> directory</p>
+              <!-- Processed Data Rules -->
+              <div class="rules-section">
+                <div class="rules-section-header">
+                  <h4 class="rules-section-title">Processed Data Files</h4>
+                  <div class="rules-badge optional">Optional</div>
+                </div>
+                <div class="rules-detail">
+                  <p class="rules-label">Directory Structure:</p>
+                  <code class="rules-code">{Species}_results</code>
+                </div>
+                <p class="rules-note">Results should be organized under <code class="rules-code-inline">{Species}_results</code> directory</p>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div class="upload-container">
-          <!-- Segmentation Method Selection (Always Visible) -->
-          <div v-if="!uploadSuccess && !isUploading" class="segmentation-method-selector-top">
-            <label class="selector-label">Segmentation Method:</label>
-            <select v-model="segmentationMethod" class="method-select">
-              <option value="sam3">SAM3 (Default)</option>
-              <option value="rmbg">RMBG-2.0</option>
-            </select>
-            <p class="method-description">
-              <strong>SAM3</strong>: Advanced segmentation with text prompts (recommended for sorghum plants)<br>
-              <strong>RMBG-2.0</strong>: Legacy background removal method
-            </p>
-          </div>
-          
-          <!-- Upload Area -->
-          <div v-if="!uploadSuccess && !uploadFailed" class="upload-area" 
+
+          <!-- Right Column: Segmentation & Upload -->
+          <div class="upload-panel">
+            <!-- Segmentation Method Selection -->
+            <div v-if="!uploadSuccess && !isUploading" class="segmentation-selector-card">
+              <div class="selector-header">
+                <div class="selector-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <label class="selector-label">Segmentation Method</label>
+              </div>
+              <select v-model="segmentationMethod" class="method-select">
+                <option value="sam3">SAM3 (Default)</option>
+                <option value="rmbg">RMBG-2.0</option>
+              </select>
+              <div class="method-info">
+                <div class="method-info-item">
+                  <span class="method-info-badge sam3">SAM3</span>
+                  <span class="method-info-text">Advanced segmentation with text prompts (recommended for sorghum plants)</span>
+                </div>
+                <div class="method-info-item">
+                  <span class="method-info-badge rmbg">RMBG-2.0</span>
+                  <span class="method-info-text">Legacy background removal method</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Upload Area -->
+            <div v-if="!uploadSuccess && !uploadFailed" class="upload-area" 
                @drop="handleDrop" 
                @dragover.prevent 
                @dragenter.prevent
@@ -206,6 +262,7 @@
                 Back to Home
               </button>
             </div>
+          </div>
           </div>
         </div>
       </main>
@@ -640,6 +697,13 @@ html {
   background-attachment: fixed;
 }
 
+/* Disable fixed attachment on mobile for better performance */
+@media (max-width: 768px) {
+  .background-image {
+    background-attachment: scroll;
+  }
+}
+
 /* Gradient overlay */
 .gradient-overlay {
   position: absolute;
@@ -662,11 +726,13 @@ html {
   padding: 20px;
   text-align: center;
   padding-bottom: 60px;
+  padding-top: 200px; /* Space for header */
 }
 
 .content {
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 .title-container {
@@ -674,29 +740,30 @@ html {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin-top: 200px;
+  margin-top: 0;
   margin-bottom: 20px;
 }
 
 .title {
   color: white;
   font-size: 73px;
-  margin-top: -10px;
+  margin-top: 10px;
   margin-bottom: 0px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-weight: 900;
 }
 
 .back-button {
-  position: absolute;
-  top: 400px;
-  left: 400px;
+  position: fixed;
+  top: 220px;
+  left: 40px;
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  z-index: 5; /* Above header */
 }
 
 .back-button:hover {
@@ -743,28 +810,253 @@ html {
   opacity: 0.9;
 }
 
+/* Main Content Grid: Two Column Layout */
+.main-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+  margin-top: 40px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: start;
+}
+
+/* Left Column: Rules Panel */
+.rules-panel {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 220px; /* Below header area */
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for rules panel */
+.rules-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rules-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.rules-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.rules-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.rules-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.rules-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #08B6E0, #05AF6B);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.rules-title {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.rules-content {
+  color: white;
+}
+
+.rules-section {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.rules-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.rules-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.rules-section-title {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  color: #4ade80;
+}
+
+.rules-badge {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rules-badge.optional {
+  background: linear-gradient(135deg, #08B6E0, #0599b3);
+}
+
+.rules-detail {
+  margin-bottom: 14px;
+}
+
+.rules-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rules-code {
+  display: block;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: 'Courier New', 'Monaco', monospace;
+  color: #4ade80;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  word-break: break-all;
+}
+
+.rules-code-inline {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', 'Monaco', monospace;
+  color: #4ade80;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.rules-example-box {
+  margin: 18px 0;
+  padding: 14px;
+  background: rgba(74, 222, 128, 0.15);
+  border-left: 4px solid #4ade80;
+  border-radius: 8px;
+}
+
+.rules-example-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rules-example-code {
+  display: block;
+  font-family: 'Courier New', 'Monaco', monospace;
+  color: #256e40;
+  font-weight: 600;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.rules-list {
+  margin: 20px 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rules-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px 0;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.list-icon {
+  color: #4ade80;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.rules-note {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* Right Column: Upload Panel */
+.upload-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .upload-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 0;
 }
 
 .upload-area {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
   border: 2px dashed rgba(255, 255, 255, 0.3);
   border-radius: 20px;
-  padding: 60px 40px;
+  padding: 50px 30px;
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
-  min-width: 400px;
-  min-height: 300px;
+  width: 100%;
+  min-height: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .upload-area:hover {
@@ -820,82 +1112,42 @@ html {
   cursor: not-allowed;
 }
 
-/* Upload Rules */
-.upload-rules {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
+/* Segmentation Selector Card */
+.segmentation-selector-card {
+  margin-top: 7%;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
   padding: 24px;
-  margin: 30px auto;
-  max-width: 700px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-.rules-title {
-  color: white;
-  font-size: 22px;
-  font-weight: 700;
+.selector-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 16px;
-  text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.rules-content {
+.selector-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
-  text-align: left;
+  flex-shrink: 0;
 }
 
-.rules-content p {
-  margin: 12px 0;
-  line-height: 1.6;
-}
-
-.rules-section {
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.rules-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.rules-section-title {
+.selector-label {
   color: white;
-  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 16px;
+  margin: 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  color: #4ade80;
-}
-
-.rules-content code {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: 'Courier New', monospace;
-  color: #4ade80;
-  font-weight: 600;
-}
-
-.rules-example {
-  margin: 16px 0 !important;
-  padding: 12px;
-  background: rgba(74, 222, 128, 0.1);
-  border-left: 3px solid #4ade80;
-  border-radius: 4px;
-}
-
-.rules-list {
-  margin: 16px 0;
-  padding-left: 24px;
-}
-
-.rules-list li {
-  margin: 8px 0;
-  line-height: 1.5;
 }
 
 /* Upload Area States */
@@ -970,15 +1222,13 @@ html {
 
 /* Selected Files */
 .selected-files {
-  margin-top: 30px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
   padding: 24px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .selected-title {
@@ -1039,69 +1289,84 @@ html {
   background: rgba(239, 68, 68, 0.2);
 }
 
-.segmentation-method-selector-top {
-  margin: 0 0 30px 0;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.segmentation-method-selector {
-  margin: 20px 0;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.selector-label {
-  display: block;
-  color: white;
-  font-weight: 600;
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
 .method-select {
   width: 100%;
-  padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
   color: white;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-bottom: 16px;
 }
 
 .method-select:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
 }
 
 .method-select:focus {
   outline: none;
   border-color: #08B6E0;
-  box-shadow: 0 0 0 3px rgba(8, 182, 224, 0.2);
+  box-shadow: 0 0 0 4px rgba(8, 182, 224, 0.25);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .method-select option {
   background: #1a1a1a;
   color: white;
+  padding: 10px;
 }
 
-.method-description {
-  margin-top: 12px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
+.method-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
 }
 
-.method-description strong {
-  color: #08B6E0;
+.method-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.method-info-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  min-width: 70px;
+  text-align: center;
+}
+
+.method-info-badge.sam3 {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+}
+
+.method-info-badge.rmbg {
+  background: linear-gradient(135deg, #08B6E0, #0599b3);
+  color: white;
+}
+
+.method-info-text {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  line-height: 1.5;
+  flex: 1;
 }
 
 .upload-actions {
@@ -1154,15 +1419,22 @@ html {
   margin-top: 20px;
   background: rgba(239, 68, 68, 0.2);
   border: 2px solid rgba(239, 68, 68, 0.5);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 16px;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  gap: 12px;
+}
+
+.error-message p {
+  word-break: break-word;
+  flex: 1;
+  min-width: 0;
 }
 
 .error-message p {
@@ -1186,14 +1458,14 @@ html {
 
 /* Failure Page */
 .failure-page {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 60px 40px;
+  padding: 50px 30px;
   text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
+  width: 100%;
   border: 2px solid rgba(239, 68, 68, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .failure-icon {
@@ -1255,14 +1527,14 @@ html {
 
 /* Success Page */
 .success-page {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 60px 40px;
+  padding: 50px 30px;
   text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
+  width: 100%;
   border: 2px solid rgba(74, 222, 128, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .success-icon {
@@ -1380,23 +1652,493 @@ html {
 }
 
 /* Responsive design */
+
+/* Large screens (1440px and above) */
+@media (min-width: 1440px) {
+  .content {
+    max-width: 1400px;
+  }
+  
+  .main-content-grid {
+    max-width: 1400px;
+    gap: 40px;
+  }
+}
+
+/* Medium-large screens (1200px - 1024px) */
+@media (max-width: 1200px) {
+  .main-content-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  
+  .content {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+  
+  .title {
+    font-size: 65px;
+  }
+  
+  .upload-area {
+    width: 95%;
+  }
+}
+
+/* Tablets (1024px and below) */
+@media (max-width: 1024px) {
+  .main-content-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .rules-panel {
+    position: static;
+    max-height: none;
+  }
+  
+  .app-content {
+    padding-top: 180px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .content {
+    max-width: 100%;
+  }
+  
+  .title {
+    font-size: 56px;
+  }
+  
+  .description {
+    max-width: 500px;
+  }
+  
+  .upload-area {
+    width: 100%;
+  }
+  
+  .segmentation-selector-card {
+    margin-top: 0;
+  }
+}
+
+/* Medium tablets and small laptops (900px - 768px) */
+@media (max-width: 900px) {
+  .title {
+    font-size: 50px;
+  }
+  
+  .description {
+    font-size: 18px;
+    max-width: 450px;
+  }
+  
+  .rules-panel,
+  .segmentation-selector-card {
+    padding: 24px;
+  }
+  
+  .upload-area {
+    padding: 45px 25px;
+    min-height: 300px;
+  }
+  
+  .upload-title {
+    font-size: 22px;
+  }
+  
+  .upload-subtitle {
+    font-size: 15px;
+  }
+  
+  .back-button {
+    top: 170px;
+    left: 30px;
+  }
+}
+
+/* Mobile devices (768px and below) */
 @media (max-width: 768px) {
   .title {
-    font-size: 48px;
+    font-size: 42px;
   }
   
   .description {
     font-size: 16px;
-    max-width: 350px;
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  
+  .main-content-grid {
+    gap: 20px;
+  }
+  
+  .rules-panel,
+  .segmentation-selector-card {
+    padding: 20px;
   }
   
   .upload-area {
-    min-width: 300px;
     padding: 40px 20px;
+    min-height: 280px;
+    width: 100%;
   }
   
   .upload-title {
     font-size: 20px;
+  }
+  
+  .upload-subtitle {
+    font-size: 14px;
+  }
+  
+  .upload-icon svg {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .rules-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .rules-title {
+    font-size: 20px;
+  }
+  
+  .rules-section-title {
+    font-size: 16px;
+  }
+  
+  .method-info-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .method-info-badge {
+    align-self: flex-start;
+  }
+  
+  .app-content {
+    padding-top: 160px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .back-button {
+    top: 160px;
+    left: 15px;
+    padding: 6px;
+  }
+  
+  .back-button svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .rules-panel {
+    top: auto;
+  }
+  
+  .title-container {
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .selected-files {
+    padding: 20px;
+  }
+  
+  .error-message {
+    padding: 14px;
+    flex-wrap: wrap;
+  }
+  
+  .error-message p {
+    font-size: 14px;
+  }
+  
+  .upload-progress {
+    padding: 35px 20px;
+  }
+  
+  .progress-bar {
+    max-width: 100%;
+  }
+  
+  .selected-title {
+    font-size: 18px;
+  }
+  
+  .file-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .file-name {
+    font-size: 13px;
+    width: 100%;
+  }
+  
+  .upload-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .upload-btn,
+  .clear-btn {
+    width: 100%;
+  }
+  
+  .success-page,
+  .failure-page {
+    padding: 40px 20px;
+  }
+  
+  .success-title,
+  .failure-title {
+    font-size: 28px;
+  }
+  
+  .success-message,
+  .failure-message {
+    font-size: 16px;
+  }
+  
+  .success-actions,
+  .failure-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .view-analysis-btn,
+  .upload-another-btn,
+  .back-btn {
+    width: 100%;
+  }
+  
+  .success-details,
+  .failure-details {
+    padding: 20px;
+  }
+  
+  .success-details p,
+  .failure-details p {
+    font-size: 14px;
+  }
+}
+
+/* Small mobile devices (480px and below) */
+@media (max-width: 480px) {
+  .title {
+    font-size: 36px;
+  }
+  
+  .description {
+    font-size: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .app-content {
+    padding-top: 140px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 40px;
+  }
+  
+  .rules-panel,
+  .segmentation-selector-card,
+  .selected-files {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .upload-area {
+    padding: 30px 15px;
+    min-height: 250px;
+    border-radius: 16px;
+  }
+  
+  .upload-title {
+    font-size: 18px;
+  }
+  
+  .upload-subtitle {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .upload-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .browse-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .rules-title {
+    font-size: 18px;
+  }
+  
+  .rules-section-title {
+    font-size: 15px;
+  }
+  
+  .rules-code,
+  .rules-example-code {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  .rules-list li {
+    font-size: 13px;
+  }
+  
+  .method-select {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .method-info-text {
+    font-size: 12px;
+  }
+  
+  .back-button {
+    top: 140px;
+    left: 10px;
+    padding: 5px;
+  }
+  
+  .back-button svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .title-container {
+    margin-bottom: 10px;
+  }
+  
+  .success-page,
+  .failure-page {
+    padding: 30px 15px;
+  }
+  
+  .success-icon svg,
+  .failure-icon svg {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .success-title,
+  .failure-title {
+    font-size: 24px;
+  }
+  
+  .success-message,
+  .failure-message {
+    font-size: 15px;
+  }
+  
+  .success-details,
+  .failure-details {
+    padding: 16px;
+  }
+  
+  .success-details p,
+  .failure-details p {
+    font-size: 13px;
+    margin: 10px 0;
+  }
+  
+  .progress-text {
+    font-size: 16px;
+  }
+  
+  .progress-percentage {
+    font-size: 14px;
+  }
+  
+  .progress-stage {
+    font-size: 13px;
+  }
+  
+  .error-message {
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .error-message p {
+    font-size: 13px;
+  }
+  
+  .close-error {
+    align-self: flex-end;
+    font-size: 20px;
+  }
+  
+  .files-list {
+    max-height: 200px;
+  }
+  
+  .upload-progress {
+    padding: 30px 20px;
+  }
+  
+  .progress-bar {
+    max-width: 100%;
+  }
+  
+  .progress-spinner {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Extra small devices (360px and below) */
+@media (max-width: 360px) {
+  .title {
+    font-size: 32px;
+  }
+  
+  .description {
+    font-size: 14px;
+  }
+  
+  .app-content {
+    padding-top: 130px;
+  }
+  
+  .upload-area {
+    padding: 25px 12px;
+    min-height: 220px;
+  }
+  
+  .upload-title {
+    font-size: 16px;
+  }
+  
+  .upload-subtitle {
+    font-size: 12px;
+  }
+  
+  .rules-panel,
+  .segmentation-selector-card {
+    padding: 14px;
+  }
+  
+  .back-button {
+    top: 130px;
+    left: 8px;
   }
 }
 </style>

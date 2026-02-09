@@ -22,6 +22,15 @@
         <div class="content-layout">
           <!-- Parameters Section - Left Side -->
           <div class="parameters-section">
+            <!-- Back Button -->
+            <div class="back-button-container">
+              <button @click="goBack" class="back-button-icon" title="Back to Selection">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 12H5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 19L5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
             <h3 class="parameters-title">Analysis Parameters</h3>
 
             <!-- Plant ID Selection -->
@@ -57,7 +66,7 @@
             </div>
 
             <!-- Segmentation Method Selection -->
-            <div class="parameter-group">
+            <!-- <div class="parameter-group">
               <label class="parameter-label">Segmentation Method</label>
               <select 
                 v-model="segmentationMethod" 
@@ -71,7 +80,7 @@
                 <strong>SAM3</strong>: Advanced segmentation (recommended for sorghum)<br>
                 <strong>RMBG-2.0</strong>: Legacy background removal
               </p>
-            </div>
+            </div> -->
 
             <!-- Back Button -->
             <!-- <ConfigurableButton
@@ -149,16 +158,6 @@
                   </div>
                 </div>
               </div>
-              <!-- Go Back Button -->
-            <div class="parameter-group">
-              <ConfigurableButton
-                text="Back"
-                variant="outline"
-                size="medium"
-                @click="goBack"
-                class="back-button"
-              />
-            </div>
             </div>
           </div>
 
@@ -944,7 +943,39 @@ html {
   position: fixed;
   top: 180px;
   left: 0px;
+}
 
+/* Back Button Container */
+.back-button-container {
+  position: absolute;
+  top: -50px;
+  left: 10;
+  z-index: 5;
+}
+
+.back-button-icon {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.back-button-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.back-button-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  display: block;
 }
 
 .parameters-title {
@@ -1115,21 +1146,6 @@ html {
   font-weight: 500;
 }
 
-.back-button {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  margin-top: 10px;
-  width: 40%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  font-size: 18px;
-}
-
-.back-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
 
 
 .plant-info {
@@ -1210,6 +1226,358 @@ html {
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   z-index: 1;
+}
+
+/* Responsive design */
+
+/* Large screens (1440px and above) */
+@media (min-width: 1440px) {
+  .content {
+    max-width: 1600px;
+  }
+  
+  .parameters-section {
+    width: 320px;
+  }
+}
+
+/* Medium-large screens (1200px - 1024px) */
+@media (max-width: 1200px) {
+  .content {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+  
+  .content-layout {
+    gap: 20px;
+  }
+  
+  .parameters-section {
+    width: 280px;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 56px;
+  }
+  
+  .subtitle {
+    font-size: 52px;
+  }
+}
+
+/* Tablets (1024px and below) */
+@media (max-width: 1024px) {
+  .content-layout {
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .parameters-section {
+    position: static;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    top: auto;
+    left: auto;
+  }
+  
+  .back-button-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 10px;
+  }
+  
+  .content {
+    padding-top: 100px;
+  }
+  
+  .title {
+    font-size: 48px;
+    margin-top: 150px;
+  }
+  
+  .subtitle {
+    font-size: 44px;
+  }
+  
+  .content-header .title {
+    font-size: 42px;
+  }
+  
+  .content-header .subtitle {
+    font-size: 32px;
+  }
+  
+  .background-image {
+    background-attachment: scroll;
+  }
+  
+  .back-button-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 10px;
+  }
+}
+
+/* Medium tablets and small laptops (900px - 768px) */
+@media (max-width: 900px) {
+  .title {
+    font-size: 42px;
+    margin-top: 120px;
+  }
+  
+  .subtitle {
+    font-size: 38px;
+  }
+  
+  .parameters-section {
+    padding: 18px;
+  }
+  
+  .parameters-title {
+    font-size: 22px;
+  }
+  
+  .content-header .title {
+    font-size: 38px;
+  }
+  
+  .content-header .subtitle {
+    font-size: 28px;
+  }
+  
+  .status-message h3 {
+    font-size: 24px;
+  }
+  
+  .status-message p {
+    font-size: 16px;
+  }
+}
+
+/* Mobile devices (768px and below) */
+@media (max-width: 768px) {
+  .app-content {
+    padding: 15px;
+  }
+  
+  .content {
+    padding-top: 80px;
+  }
+  
+  .title {
+    font-size: 36px;
+    margin-top: 100px;
+    margin-bottom: 8px;
+  }
+  
+  .subtitle {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+  
+  .parameters-section {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .parameters-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .parameter-group {
+    margin-bottom: 16px;
+  }
+  
+  .dropdown {
+    width: 100%;
+  }
+  
+  .analyze-button,
+  .reset-button {
+    width: 100%;
+  }
+  
+  .content-layout {
+    gap: 20px;
+  }
+  
+  .main-content-area {
+    width: 100%;
+  }
+  
+  .content-header .title {
+    font-size: 32px;
+  }
+  
+  .content-header .subtitle {
+    font-size: 24px;
+  }
+  
+  .status-area {
+    padding: 24px;
+    height: auto;
+    min-height: 200px;
+  }
+  
+  .status-message {
+    margin-top: 0;
+  }
+  
+  .status-message h3 {
+    font-size: 22px;
+  }
+  
+  .status-message p {
+    font-size: 15px;
+  }
+  
+  .plant-description {
+    font-size: 20px;
+  }
+  
+  .details-content {
+    font-size: 16px;
+    max-width: 100%;
+  }
+  
+  .config-summary {
+    padding: 16px;
+  }
+  
+  .config-item {
+    font-size: 14px;
+  }
+  
+  .back-button-container {
+    top: -45px;
+  }
+  
+  .back-button-icon {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+  
+  .back-button-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Small mobile devices (480px and below) */
+@media (max-width: 480px) {
+  .app-content {
+    padding: 10px;
+  }
+  
+  .content {
+    padding-top: 60px;
+  }
+  
+  .title {
+    font-size: 28px;
+    margin-top: 80px;
+  }
+  
+  .subtitle {
+    font-size: 24px;
+  }
+  
+  .parameters-section {
+    padding: 14px;
+  }
+  
+  .parameters-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  .parameter-label {
+    font-size: 13px;
+  }
+  
+  .content-header .title {
+    font-size: 28px;
+  }
+  
+  .content-header .subtitle {
+    font-size: 20px;
+  }
+  
+  .status-area {
+    padding: 20px;
+  }
+  
+  .status-message h3 {
+    font-size: 20px;
+  }
+  
+  .status-message p {
+    font-size: 14px;
+  }
+  
+  .plant-description {
+    font-size: 18px;
+  }
+  
+  .details-content {
+    font-size: 14px;
+  }
+  
+  .config-item {
+    font-size: 13px;
+    padding: 6px 0;
+  }
+  
+  .progress-text {
+    font-size: 12px;
+  }
+  
+  .segmentation-select {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+}
+
+/* Extra small devices (360px and below) */
+@media (max-width: 360px) {
+  .title {
+    font-size: 24px;
+    margin-top: 60px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+  }
+  
+  .parameters-section {
+    padding: 12px;
+  }
+  
+  .parameters-title {
+    font-size: 16px;
+  }
+  
+  .content-header .title {
+    font-size: 24px;
+  }
+  
+  .content-header .subtitle {
+    font-size: 18px;
+  }
+  
+  .status-message h3 {
+    font-size: 18px;
+  }
+  
+  .status-message p {
+    font-size: 13px;
+  }
 }
 
 </style>

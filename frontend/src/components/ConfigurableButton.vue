@@ -326,4 +326,66 @@ export default {
 .configurable-button:active:not(.button-disabled) {
   transform: scale(0.98);
 }
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .button-small {
+    padding: 5px 10px;
+    font-size: 13px;
+    min-height: 30px;
+  }
+  
+  .button-medium {
+    padding: 8px 16px;
+    font-size: 15px;
+    min-height: 38px;
+  }
+  
+  .button-large {
+    padding: 12px 24px;
+    font-size: 16px;
+    min-height: 44px;
+  }
+  
+  .button-extra-large {
+    padding: 14px 28px;
+    font-size: 18px;
+    min-height: 50px;
+  }
+  
+  .configurable-button {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .button-small {
+    padding: 4px 8px;
+    font-size: 12px;
+    min-height: 28px;
+  }
+  
+  .button-medium {
+    padding: 8px 14px;
+    font-size: 14px;
+    min-height: 36px;
+  }
+  
+  .button-large {
+    padding: 10px 20px;
+    font-size: 15px;
+    min-height: 40px;
+  }
+  
+  .button-extra-large {
+    padding: 12px 24px;
+    font-size: 16px;
+    min-height: 46px;
+  }
+  
+  .loading-spinner {
+    width: 14px;
+    height: 14px;
+  }
+}
 </style>

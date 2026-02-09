@@ -2262,6 +2262,15 @@ export default {
 }
 
 /* Responsive Design */
+
+/* Large screens (1440px and above) */
+@media (min-width: 1440px) {
+  .chart-container {
+    height: 450px;
+  }
+}
+
+/* Medium-large screens (1200px - 1024px) */
 @media (max-width: 1200px) {
   .timeline-content {
     flex-direction: column;
@@ -2272,7 +2281,7 @@ export default {
   }
   
   .chart-container {
-    height: 300px;
+    height: 350px;
   }
   
   .config-panel {
@@ -2284,7 +2293,38 @@ export default {
   }
 }
 
+/* Tablets (1024px and below) */
+@media (max-width: 1024px) {
+  .chart-container {
+    height: 320px;
+  }
+  
+  .timeline-header h2 {
+    font-size: 22px;
+  }
+  
+  .timeline-header p {
+    font-size: 14px;
+  }
+}
+
+/* Medium tablets and small laptops (900px - 768px) */
+@media (max-width: 900px) {
+  .chart-container {
+    height: 300px;
+  }
+  
+  .config-panel {
+    padding: 16px;
+  }
+}
+
+/* Mobile devices (768px and below) */
 @media (max-width: 768px) {
+  .timeline-header {
+    padding: 12px 16px;
+  }
+  
   .timeline-header h2 {
     font-size: 18px;
   }
@@ -2293,12 +2333,25 @@ export default {
     font-size: 12px;
   }
   
+  .config-panel {
+    padding: 14px;
+  }
+  
   .config-panel h3 {
     font-size: 16px;
   }
   
+  .config-group {
+    margin-bottom: 14px;
+  }
+  
   .config-group label {
     font-size: 12px;
+  }
+  
+  .chart-container {
+    height: 280px;
+    padding: 14px;
   }
   
   .checkbox-group-two-columns {
@@ -2318,15 +2371,53 @@ export default {
   .image-item-small img {
     height: 120px;
   }
+  
+  .plant-select-dropdown {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  
+  .selected-plants-list {
+    font-size: 12px;
+  }
+  
+  .selected-plant-item {
+    padding: 6px 10px;
+  }
 }
 
+/* Small mobile devices (480px and below) */
 @media (max-width: 480px) {
   .timeline-content {
     gap: 12px;
   }
   
+  .timeline-header {
+    padding: 10px 12px;
+  }
+  
+  .timeline-header h2 {
+    font-size: 16px;
+  }
+  
+  .timeline-header p {
+    font-size: 11px;
+  }
+  
   .config-panel {
     padding: 12px;
+  }
+  
+  .config-panel h3 {
+    font-size: 14px;
+  }
+  
+  .config-group {
+    margin-bottom: 12px;
+  }
+  
+  .config-group label {
+    font-size: 11px;
   }
   
   .chart-container {
@@ -2346,6 +2437,60 @@ export default {
   
   .date-range input {
     width: 100%;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  select {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .plant-select-dropdown {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .selected-plants-list {
+    font-size: 11px;
+  }
+  
+  .selected-plant-item {
+    padding: 5px 8px;
+  }
+  
+  .remove-plant-btn {
+    font-size: 18px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Extra small devices (360px and below) */
+@media (max-width: 360px) {
+  .timeline-header h2 {
+    font-size: 14px;
+  }
+  
+  .timeline-header p {
+    font-size: 10px;
+  }
+  
+  .config-panel {
+    padding: 10px;
+  }
+  
+  .config-panel h3 {
+    font-size: 13px;
+  }
+  
+  .chart-container {
+    height: 220px;
+    padding: 10px;
+  }
+  
+  .image-item-small img {
+    height: 100px;
   }
 }
 

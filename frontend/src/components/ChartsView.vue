@@ -1299,6 +1299,113 @@ export default {
     19px 0     0 0px, 38px 0     0 5px, 57px 0     0 0px,
     19px 19px  0 5px, 38px 19px  0 0px, 57px 19px  0 0px}
 }
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .charts-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .selection-pane {
+    height: auto;
+    margin-top: 0;
+    margin-right: 0;
+    order: -1;
+  }
+  
+  .plot-space {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .charts-view {
+    padding: 15px;
+  }
+  
+  .plot-space {
+    min-height: 400px;
+    padding: 20px;
+  }
+  
+  .selection-pane {
+    padding: 16px;
+  }
+  
+  .pane-title {
+    font-size: 18px;
+  }
+  
+  .selector-label {
+    font-size: 13px;
+  }
+  
+  .chart-select {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+  
+  .download-button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  .loading-text {
+    font-size: 16px;
+  }
+  
+  .plot-placeholder p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .charts-view {
+    padding: 10px;
+  }
+  
+  .plot-space {
+    min-height: 350px;
+    padding: 15px;
+  }
+  
+  .selection-pane {
+    padding: 12px;
+  }
+  
+  .pane-title {
+    font-size: 16px;
+  }
+  
+  .selector-label {
+    font-size: 12px;
+  }
+  
+  .chart-select {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  
+  .download-button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  
+  .loading-text {
+    font-size: 14px;
+  }
+  
+  .loading-message p,
+  .error-message p {
+    font-size: 12px;
+  }
+  
+  .plot-placeholder p {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+}
 </style>
 
 

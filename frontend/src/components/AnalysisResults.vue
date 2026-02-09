@@ -1937,4 +1937,183 @@ export default {
   transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .plot-image {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .tabs-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .tab-button {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+  
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .image-item {
+    padding: 12px;
+  }
+  
+  .image-title {
+    font-size: 13px;
+  }
+  
+  .plot-image {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tabs-container {
+    margin-bottom: 20px;
+  }
+  
+  .tabs-header {
+    gap: 6px;
+  }
+  
+  .tab-button {
+    font-size: 12px;
+    padding: 8px 12px;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .tab-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .tab-header h3 {
+    font-size: 18px;
+  }
+  
+  .download-all-btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+  
+  .image-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .image-item {
+    padding: 10px;
+  }
+  
+  .result-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .image-title {
+    font-size: 12px;
+  }
+  
+  .plot-image {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .modal-content {
+    max-width: 95%;
+    padding: 20px;
+  }
+  
+  .modal-image {
+    max-width: 100%;
+    max-height: 70vh;
+  }
+  
+  .modal-title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs-header {
+    gap: 4px;
+  }
+  
+  .tab-button {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  
+  .tab-header h3 {
+    font-size: 16px;
+  }
+  
+  .download-all-btn {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+  
+  .image-grid {
+    gap: 12px;
+  }
+  
+  .image-item {
+    padding: 8px;
+  }
+  
+  .image-title {
+    font-size: 11px;
+  }
+  
+  .no-images-message h4 {
+    font-size: 16px;
+  }
+  
+  .no-images-message p {
+    font-size: 13px;
+  }
+  
+  .modal-content {
+    max-width: 98%;
+    padding: 15px;
+  }
+  
+  .modal-image {
+    max-height: 60vh;
+  }
+  
+  .modal-title {
+    font-size: 14px;
+  }
+  
+  .close-modal {
+    font-size: 28px;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .plot-image {
+    width: 100%;
+  }
+  
+  .plot-title {
+    font-size: 14px;
+  }
+}
 </style>
